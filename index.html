@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sorteo Fundación +Vida</title>
+  <style>
+    /* ESTILOS GENERALES */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #F2FBFD;
+      color: #333;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 80px auto;
+      background-color: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #19B7CF;
+      font-size: 32px;
+    }
+
+    h1 .vida {
+      color: #F47532;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    .form-group input[type="number"],
+    .form-group input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #19B7CF;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .form-group.checkbox {
+      display: flex;
+      align-items: center;
+    }
+
+    .form-group.checkbox input {
+      margin-right: 10px;
+      transform: scale(1.2);
+    }
+
+    .btn {
+      background-color: #F47532;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #e06328;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    /* PANTALLA DE CONFIGURACIÓN */
+    .pantalla-1 {
+      display: block;
+    }
+
+    /* PANTALLA DE SORTEO */
+    .pantalla-3 {
+      text-align: center;
+      padding: 40px;
+      background-color: #F2FBFD;
+      display: none;
+    }
+
+    .bola-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .mini-bola {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #F47532;
+      color: white;
+      border-radius: 50%;
+      animation: rebotar 1.5s infinite alternate ease-in-out;
+    }
+
+    @keyframes rebotar {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+
+    .bola-resultado {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #19B7CF;
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      transition: all 1s ease;
+    }
+
+    .bingo-contenedor {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .bombo {
+      width: 200px;
+      height: 200px;
+      border: 8px solid #19B7CF;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: girar 3s linear infinite;
+    }
+
+    @keyframes girar {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .resultado {
+      text-align: left;
+      max-width: 400px;
+    }
+
+    .ganadores-lista {
+      margin-top: 20px;
+    }
+
+    .ganador-item {
+      background-color: white;
+      border: 2px solid #19B7CF;
+      border-left: 8px solid #F47532;
+      padding: 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ganador-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    /* PANTALLA FINAL */
+    .pantalla-final {
+      width: 100vw;
+      height: 100vh;
+      background-color: #F2FBFD;
+      display: none;
+      flex-direction: row;
+    }
+
+    .final-izquierda {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #F2FBFD;
+    }
+
+    .bombo-final {
+      width: 300px;
+      height: 300px;
+      background-color: #F47532;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .bola-resultado-final {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background-color: white;
+      color: #F47532;
+      font-size: 4em;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .final-derecha {
+      flex: 1;
+      padding: 20px;
+      display: grid;
+      gap: 20px;
+      background-color: white;
+      overflow-y: auto;
+    }
+
+    .final-derecha .ganador-box {
+      background-color: #19B7CF;
+      color: white;
+      font-size: clamp(1rem, 5vw, 3rem);
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 16px;
+      aspect-ratio: 1 / 1;
+      min-width: 0;
+      min-height: 0;
+    }
+
+    /* PANTALLA DE CARGA DE CSV */
+    .pantalla-csv {
+      display: none;
+      padding: 40px;
+      background-color: #F2FBFD;
+      text-align: center;
+    }
+
+    .pantalla-csv h1 {
+      color: #F47532;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    #csvForm {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    #previewPremios {
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .premio-preview {
+      background-color: white;
+      border: 2px solid #19B7CF;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <!-- PANTALLA 1: CONFIGURACIÓN INICIAL -->
+  <div class="container pantalla-1" id="pantalla1">
+    <h1>Sorteo Fundación <span class="vida">+Vida</span></h1>
+    
+    <form id="form-config">
+      <div class="form-group">
+        <label for="min">Número inicial vendido:</label>
+        <input type="number" id="min" name="min" required min="1" value="1000">
+      </div>
+
+      <div class="form-group">
+        <label for="max">Número final vendido:</label>
+        <input type="number" id="max" name="max" required min="1" value="1785">
+      </div>
+
+      <div class="form-group">
+        <label for="ganadores">Número de ganadores:</label>
+        <input type="number" id="ganadores" name="ganadores" required min="1" value="3">
+      </div>
+
+      <div class="form-group checkbox">
+        <input type="checkbox" id="importaOrden" name="importaOrden">
+        <label for="importaOrden">¿Importa el orden de los premios?</label>
+      </div>
+
+      <button type="submit" class="btn">Continuar</button>
+    </form>
+  </div>
+
+  <!-- PANTALLA 2: CARGA DE CSV -->
+  <div class="container pantalla-csv" id="pantallaCsv">
+    <h1>Configura los premios</h1>
+    <form id="csvForm">
+      <div class="form-group">
+        <label for="csvFile">Sube el archivo CSV con los premios:</label>
+        <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
+        <small>Formato CSV: Primera columna (nombre de la marca/imagen), Segunda columna (nombre del premio)</small>
+      </div>
+    </form>
+    <div id="previewPremios"></div>
+    <button class="btn" id="continuarBtn">Continuar al sorteo</button>
+  </div>
+
+  <!-- PANTALLA 3: SORTEO -->
+  <div class="pantalla-3" id="pantalla3">
+    <h1 class="titulo-sorteo">Sorteo Fundación <span class="vida">+Vida</span></h1>
+    <div class="bingo-contenedor">
+      <div class="bombo" id="bombo">
+        <div class="bola-container" id="bolaContainer">
+          <div class="mini-bola" style="top: 20%; left: 30%;"></div>
+          <div class="mini-bola" style="top: 40%; left: 60%;"></div>
+          <div class="mini-bola" style="top: 70%; left: 20%;"></div>
+          <div class="mini-bola" style="top: 50%; left: 50%;"></div>
+          <div class="bola-resultado" id="bolaResultado">?</div>
+        </div>
+      </div>
+
+      <div class="resultado">
+        <button class="btn" id="sacarGanador">🎱 Sacar ganador</button>
+        <div id="ganadoresLista" class="ganadores-lista"></div>
+      </div>
+    </div>
+
+    <button class="btn oculto" id="finalizarBtn">🎉 Finalizar sorteo</button>
+  </div>
+
+  <!-- PANTALLA FINAL -->
+  <div class="pantalla-final" id="pantallaFinal">
+    <div class="final-izquierda">
+      <div class="bombo-final" id="bomboFinal">
+        <div class="bola-resultado-final" id="bolaFinal">🎉</div>
+      </div>
+    </div>
+    <div class="final-derecha" id="ganadoresFinal"></div>
+  </div>
+
+  <script>
+    // Configuración global
+    let config = {};
+    let premios = [];
+    let ganadores = [];
+    let posibles = [];
+
+    // Elementos del DOM
+    const pantalla1 = document.getElementById('pantalla1');
+    const pantallaCsv = document.getElementById('pantallaCsv');
+    const pantalla3 = document.getElementById('pantalla3');
+    const pantallaFinal = document.getElementById('pantallaFinal');
+    const formConfig = document.getElementById('form-config');
+    const csvForm = document.getElementById('csvForm');
+    const csvFileInput = document.getElementById('csvFile');
+    const previewPremios = document.getElementById('previewPremios');
+    const continuarBtn = document.getElementById('continuarBtn');
+    const sacarGanadorBtn = document.getElementById('sacarGanador');
+    const finalizarBtn = document.getElementById('finalizarBtn');
+    const ganadoresLista = document.getElementById('ganadoresLista');
+    const ganadoresFinal = document.getElementById('ganadoresFinal');
+    const bolaResultado = document.getElementById('bolaResultado');
+
+    // Manejar el formulario de configuración inicial
+    formConfig.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const min = parseInt(document.getElementById('min').value);
+      const max = parseInt(document.getElementById('max').value);
+      const ganadores = parseInt(document.getElementById('ganadores').value);
+      const importaOrden = document.getElementById('importaOrden').checked;
+
+      if (min >= max) {
+        alert("El número inicial debe ser menor que el número final.");
+        return;
+      }
+
+      if (ganadores <= 0 || ganadores > (max - min + 1)) {
+        alert("El número de ganadores debe ser válido.");
+        return;
+      }
+
+      // Guardar configuración
+      config = { min, max, ganadores, importaOrden };
+
+      // Mostrar pantalla correspondiente
+      if (importaOrden) {
+        pantalla1.style.display = 'none';
+        pantallaCsv.style.display = 'block';
+      } else {
+        iniciarSorteo();
+      }
+    });
+
+    // Manejar la carga del archivo CSV
+    csvFileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const content = e.target.result;
+        procesarCSV(content);
+      };
+      reader.readAsText(file);
+    });
+
+    // Procesar el contenido del CSV
+    function procesarCSV(content) {
+      const lines = content.split('\n');
+      premios = [];
+      previewPremios.innerHTML = '';
+
+      lines.forEach((line, index) => {
+        if (!line.trim()) return;
+        
+        const [imagen, nombre] = line.split(',').map(item => item.trim());
+        if (!nombre) return;
+
+        premios.push({ nombre, imagen });
+
+        // Mostrar preview
+        const premioDiv = document.createElement('div');
+        premioDiv.className = 'premio-preview';
+        premioDiv.innerHTML = `
+          <h3>Premio ${index + 1}</h3>
+          <p><strong>Nombre:</strong> ${nombre}</p>
+          <p><strong>Imagen:</strong> ${imagen || 'Sin imagen'}</p>
+        `;
+        previewPremios.appendChild(premioDiv);
+      });
+
+      // Verificar que hay suficientes premios
+      if (premios.length < config.ganadores) {
+        alert(`Advertencia: El CSV tiene ${premios.length} premios pero se configuraron ${config.ganadores} ganadores.`);
+      }
+    }
+
+    // Continuar al sorteo
+    continuarBtn.addEventListener('click', function() {
+      if (premios.length === 0) {
+        alert('Debes subir un archivo CSV con los premios.');
+        return;
+      }
+      
+      if (premios.length < config.ganadores) {
+        if (!confirm(`Advertencia: Solo hay ${premios.length} premios pero se configuraron ${config.ganadores} ganadores. ¿Continuar igual?`)) {
+          return;
+        }
+      }
+      
+      iniciarSorteo();
+    });
+
+    // Iniciar el sorteo
+    function iniciarSorteo() {
+      // Ocultar pantallas anteriores
+      pantalla1.style.display = 'none';
+      pantallaCsv.style.display = 'none';
+      
+      // Mostrar pantalla de sorteo
+      pantalla3.style.display = 'block';
+      
+      // Inicializar números posibles
+      posibles = [];
+      for (let i = config.min; i <= config.max; i++) posibles.push(i);
+      
+      // Reiniciar ganadores
+      ganadores = [];
+      ganadoresLista.innerHTML = '';
+      
+      // Habilitar botones
+      sacarGanadorBtn.disabled = false;
+      finalizarBtn.classList.add('oculto');
+    }
+
+    // Sacar un número aleatorio
+    function sacarNumeroAleatorio() {
+      if (posibles.length === 0) return null;
+      const index = Math.floor(Math.random() * posibles.length);
+      const numero = posibles[index];
+      posibles.splice(index, 1);
+      return numero;
+    }
+
+    // Mostrar ganador
+    function mostrarGanador(numero) {
+      const index = ganadores.length - 1;
+      const div = document.createElement('div');
+      div.className = 'ganador-item';
+
+      const contenido = document.createElement('div');
+      contenido.innerHTML = `<strong>#${numero}</strong>`;
+
+      if (config.importaOrden && premios[index]) {
+        const premio = premios[index];
+        const texto = document.createElement('div');
+        texto.innerHTML = `<div><strong>${premio.nombre}</strong></div>`;
+        contenido.appendChild(texto);
+
+        if (premio.imagen) {
+          const img = document.createElement('img');
+          img.src = premio.imagen;
+          img.alt = premio.nombre;
+          div.appendChild(img);
+        }
+      }
+
+      div.appendChild(contenido);
+      ganadoresLista.appendChild(div);
+    }
+
+    // Animación de la bola y mostrar número
+    function animarBolaYMostrarNumero(numero) {
+      bolaResultado.textContent = "?";
+      bolaResultado.style.width = "0px";
+      bolaResultado.style.height = "0px";
+
+      setTimeout(() => {
+        bolaResultado.style.width = "200px";
+        bolaResultado.style.height = "200px";
+      }, 100);
+
+      setTimeout(() => {
+        bolaResultado.textContent = numero;
+      }, 1000);
+    }
+
+    // Sacar ganador
+    sacarGanadorBtn.addEventListener('click', () => {
+      if (ganadores.length >= config.ganadores) return;
+
+      const numero = sacarNumeroAleatorio();
+      if (numero === null) return;
+
+      animarBolaYMostrarNumero(numero);
+
+      setTimeout(() => {
+        ganadores.push(numero);
+        mostrarGanador(numero);
+
+        if (ganadores.length === config.ganadores) {
+          sacarGanadorBtn.disabled = true;
+          finalizarBtn.classList.remove('oculto');
+        }
+      }, 1100);
+    });
+
+    // Finalizar sorteo
+    finalizarBtn.addEventListener('click', () => {
+      pantalla3.style.display = 'none';
+      pantallaFinal.style.display = 'flex';
+      
+      ganadoresFinal.innerHTML = '<h2>🎉 Ganadores del sorteo</h2>';
+      
+      ganadores.forEach((n, i) => {
+        const premio = config.importaOrden && premios[i] ? premios[i] : null;
+        const item = document.createElement('div');
+        item.className = 'ganador-box';
+        
+        const contenido = document.createElement('div');
+        contenido.innerHTML = `<strong>#${n}</strong> ${premio ? `<br>${premio.nombre}` : ''}`;
+        item.appendChild(contenido);
+        
+        ganadoresFinal.appendChild(item);
+      });
+    });
+  </script>
+</body>
+</html>
