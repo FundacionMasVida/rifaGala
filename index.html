@@ -10,10 +10,11 @@
       font-family: 'Segoe UI', sans-serif;
       background-color: #F2FBFD;
       color: #333;
+      overflow-x: hidden;
     }
 
     .container {
-      max-width: 500px;
+      max-width: 600px;
       margin: 80px auto;
       background-color: white;
       border-radius: 16px;
@@ -88,9 +89,11 @@
     /* PANTALLA DE SORTEO */
     .pantalla-3 {
       text-align: center;
-      padding: 40px;
+      padding: 20px;
       background-color: #F2FBFD;
       display: none;
+      height: 100vh;
+      box-sizing: border-box;
     }
 
     .bola-container {
@@ -132,18 +135,17 @@
       transition: all 1s ease;
     }
 
-    .bingo-contenedor {
+    .sorteo-contenedor {
       display: flex;
       justify-content: center;
-      align-items: flex-start;
+      align-items: center;
       gap: 40px;
-      margin-top: 40px;
-      flex-wrap: wrap;
+      height: calc(100% - 100px);
     }
 
     .bombo {
-      width: 200px;
-      height: 200px;
+      width: 300px;
+      height: 300px;
       border: 8px solid #19B7CF;
       border-radius: 50%;
       position: relative;
@@ -158,32 +160,90 @@
       100% { transform: rotate(360deg); }
     }
 
-    .resultado {
-      text-align: left;
-      max-width: 400px;
+    .resultados-container {
+      width: 400px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.5s ease;
     }
 
-    .ganadores-lista {
-      margin-top: 20px;
+    .ganador-actual {
+      background-color: white;
+      border: 4px solid #F47532;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.5s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .ganador-actual img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+
+    .ganador-actual h3 {
+      color: #F47532;
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .ganador-actual p {
+      color: #19B7CF;
+      font-size: 32px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .ganadores-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 15px;
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 10px;
     }
 
     .ganador-item {
       background-color: white;
       border: 2px solid #19B7CF;
-      border-left: 8px solid #F47532;
-      padding: 10px;
       border-radius: 10px;
-      margin-bottom: 10px;
+      padding: 10px;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 12px;
+      justify-content: center;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
     .ganador-item img {
       width: 50px;
       height: 50px;
       object-fit: cover;
-      border-radius: 50%;
+      margin-bottom: 5px;
+    }
+
+    .ganador-item p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .ganador-item .numero {
+      font-size: 18px;
+      color: #19B7CF;
     }
 
     /* PANTALLA FINAL */
@@ -192,62 +252,65 @@
       height: 100vh;
       background-color: #F2FBFD;
       display: none;
-      flex-direction: row;
+      flex-direction: column;
+      padding: 40px;
+      box-sizing: border-box;
+      transition: all 0.5s ease;
     }
 
-    .final-izquierda {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #F2FBFD;
+    .final-header {
+      text-align: center;
+      margin-bottom: 30px;
     }
 
-    .bombo-final {
-      width: 300px;
-      height: 300px;
-      background-color: #F47532;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
-    .bola-resultado-final {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background-color: white;
+    .final-header h2 {
       color: #F47532;
-      font-size: 4em;
-      font-weight: bold;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      font-size: 36px;
+      margin: 0;
     }
 
-    .final-derecha {
-      flex: 1;
-      padding: 20px;
+    .final-grid {
       display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 20px;
-      background-color: white;
+      flex-grow: 1;
       overflow-y: auto;
+      padding: 20px;
     }
 
-    .final-derecha .ganador-box {
-      background-color: #19B7CF;
-      color: white;
-      font-size: clamp(1rem, 5vw, 3rem);
-      font-weight: bold;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .ganador-final {
+      background-color: white;
       border-radius: 16px;
-      aspect-ratio: 1 / 1;
-      min-width: 0;
-      min-height: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .ganador-final img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      border: 4px solid #19B7CF;
+    }
+
+    .ganador-final h3 {
+      color: #F47532;
+      margin: 0 0 10px 0;
+      font-size: 20px;
+    }
+
+    .ganador-final p {
+      color: #19B7CF;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
     }
 
     /* PANTALLA DE CARGA DE CSV */
@@ -283,6 +346,70 @@
       border-radius: 12px;
       box-shadow: 2px 2px 8px rgba(0,0,0,0.05);
     }
+    
+    /* Estilos para la configuración por centenas */
+    .centena-group {
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+    
+    .centena-header {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #19B7CF;
+    }
+    
+    .centena-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .centena-controls input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    .centena-controls label {
+      font-size: 14px;
+    }
+    
+    .toggle-centena {
+      background-color: #19B7CF;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .toggle-centena:hover {
+      background-color: #158fa3;
+    }
+    
+    #centenasContainer {
+      margin-bottom: 20px;
+    }
+    
+    #addCentenaBtn {
+      background-color: #F47532;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+    
+    #addCentenaBtn:hover {
+      background-color: #e06328;
+    }
   </style>
 </head>
 <body>
@@ -292,16 +419,6 @@
     
     <form id="form-config">
       <div class="form-group">
-        <label for="min">Número inicial vendido:</label>
-        <input type="number" id="min" name="min" required min="1" value="1000">
-      </div>
-
-      <div class="form-group">
-        <label for="max">Número final vendido:</label>
-        <input type="number" id="max" name="max" required min="1" value="1785">
-      </div>
-
-      <div class="form-group">
         <label for="ganadores">Número de ganadores:</label>
         <input type="number" id="ganadores" name="ganadores" required min="1" value="3">
       </div>
@@ -310,6 +427,58 @@
         <input type="checkbox" id="importaOrden" name="importaOrden">
         <label for="importaOrden">¿Importa el orden de los premios?</label>
       </div>
+      
+      <h3>Configuración de números vendidos</h3>
+      <p>Especifica los rangos de números vendidos por centena:</p>
+      
+      <div id="centenasContainer">
+        <!-- Centenas se agregarán aquí dinámicamente -->
+        <div class="centena-group" data-centena="0">
+          <div class="centena-header">Centena 0 (0-99)</div>
+          <div class="centena-controls">
+            <label>Desde:</label>
+            <input type="number" class="min-centena" min="0" max="99" value="0">
+            <label>Hasta:</label>
+            <input type="number" class="max-centena" min="0" max="99" value="15">
+            <button type="button" class="toggle-centena" data-active="true">Activo</button>
+          </div>
+        </div>
+        
+        <div class="centena-group" data-centena="1">
+          <div class="centena-header">Centena 1 (100-199)</div>
+          <div class="centena-controls">
+            <label>Desde:</label>
+            <input type="number" class="min-centena" min="100" max="199" value="100">
+            <label>Hasta:</label>
+            <input type="number" class="max-centena" min="100" max="199" value="167">
+            <button type="button" class="toggle-centena" data-active="true">Activo</button>
+          </div>
+        </div>
+        
+        <div class="centena-group" data-centena="2">
+          <div class="centena-header">Centena 2 (200-299)</div>
+          <div class="centena-controls">
+            <label>Desde:</label>
+            <input type="number" class="min-centena" min="200" max="299" value="200">
+            <label>Hasta:</label>
+            <input type="number" class="max-centena" min="200" max="299" value="289">
+            <button type="button" class="toggle-centena" data-active="true">Activo</button>
+          </div>
+        </div>
+        
+        <div class="centena-group" data-centena="3">
+          <div class="centena-header">Centena 3 (300-399)</div>
+          <div class="centena-controls">
+            <label>Desde:</label>
+            <input type="number" class="min-centena" min="300" max="399" value="300">
+            <label>Hasta:</label>
+            <input type="number" class="max-centena" min="300" max="399" value="312">
+            <button type="button" class="toggle-centena" data-active="true">Activo</button>
+          </div>
+        </div>
+      </div>
+      
+      <button type="button" id="addCentenaBtn">➕ Añadir otra centena</button>
 
       <button type="submit" class="btn">Continuar</button>
     </form>
@@ -322,7 +491,7 @@
       <div class="form-group">
         <label for="csvFile">Sube el archivo CSV con los premios:</label>
         <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
-        <small>Formato CSV: Primera columna (nombre de la marca/imagen), Segunda columna (nombre del premio)</small>
+        <small>Formato CSV: Primera columna (nombre del premio), Segunda columna (nombre de la imagen)</small>
       </div>
     </form>
     <div id="previewPremios"></div>
@@ -332,34 +501,31 @@
   <!-- PANTALLA 3: SORTEO -->
   <div class="pantalla-3" id="pantalla3">
     <h1 class="titulo-sorteo">Sorteo Fundación <span class="vida">+Vida</span></h1>
-    <div class="bingo-contenedor">
+    <div class="sorteo-contenedor">
       <div class="bombo" id="bombo">
         <div class="bola-container" id="bolaContainer">
-          <div class="mini-bola" style="top: 20%; left: 30%;"></div>
-          <div class="mini-bola" style="top: 40%; left: 60%;"></div>
-          <div class="mini-bola" style="top: 70%; left: 20%;"></div>
-          <div class="mini-bola" style="top: 50%; left: 50%;"></div>
           <div class="bola-resultado" id="bolaResultado">?</div>
         </div>
       </div>
 
-      <div class="resultado">
-        <button class="btn" id="sacarGanador">🎱 Sacar ganador</button>
-        <div id="ganadoresLista" class="ganadores-lista"></div>
+      <div class="resultados-container" id="resultadosContainer">
+        <div class="ganador-actual" id="ganadorActual">
+          <h3>Esperando primer ganador...</h3>
+        </div>
+        <div class="ganadores-grid" id="ganadoresGrid"></div>
       </div>
     </div>
 
+    <button class="btn" id="sacarGanador">🎱 Sacar ganador</button>
     <button class="btn oculto" id="finalizarBtn">🎉 Finalizar sorteo</button>
   </div>
 
   <!-- PANTALLA FINAL -->
   <div class="pantalla-final" id="pantallaFinal">
-    <div class="final-izquierda">
-      <div class="bombo-final" id="bomboFinal">
-        <div class="bola-resultado-final" id="bolaFinal">🎉</div>
-      </div>
+    <div class="final-header">
+      <h2>🎉 Ganadores del Sorteo</h2>
     </div>
-    <div class="final-derecha" id="ganadoresFinal"></div>
+    <div class="final-grid" id="finalGrid"></div>
   </div>
 
   <script>
@@ -381,31 +547,103 @@
     const continuarBtn = document.getElementById('continuarBtn');
     const sacarGanadorBtn = document.getElementById('sacarGanador');
     const finalizarBtn = document.getElementById('finalizarBtn');
-    const ganadoresLista = document.getElementById('ganadoresLista');
-    const ganadoresFinal = document.getElementById('ganadoresFinal');
+    const ganadorActual = document.getElementById('ganadorActual');
+    const ganadoresGrid = document.getElementById('ganadoresGrid');
+    const finalGrid = document.getElementById('finalGrid');
     const bolaResultado = document.getElementById('bolaResultado');
+    const centenasContainer = document.getElementById('centenasContainer');
+    const addCentenaBtn = document.getElementById('addCentenaBtn');
+
+    // Manejar el botón para añadir centenas
+    addCentenaBtn.addEventListener('click', function() {
+      // Encontrar la última centena configurada
+      const lastCentena = centenasContainer.lastElementChild;
+      const lastCentenaNum = parseInt(lastCentena.dataset.centena);
+      
+      // Crear nueva centena (solo hasta la centena 10 - 1000-1099)
+      if (lastCentenaNum >= 10) {
+        alert("El máximo permitido es la centena 10 (1000-1099)");
+        return;
+      }
+      
+      const newCentenaNum = lastCentenaNum + 1;
+      const minValue = newCentenaNum * 100;
+      const maxValue = minValue + 99;
+      
+      const newCentena = document.createElement('div');
+      newCentena.className = 'centena-group';
+      newCentena.dataset.centena = newCentenaNum;
+      newCentena.innerHTML = `
+        <div class="centena-header">Centena ${newCentenaNum} (${minValue}-${maxValue})</div>
+        <div class="centena-controls">
+          <label>Desde:</label>
+          <input type="number" class="min-centena" min="${minValue}" max="${maxValue}" value="${minValue}">
+          <label>Hasta:</label>
+          <input type="number" class="max-centena" min="${minValue}" max="${maxValue}" value="${maxValue}">
+          <button type="button" class="toggle-centena" data-active="true">Activo</button>
+        </div>
+      `;
+      
+      centenasContainer.appendChild(newCentena);
+      
+      // Añadir evento al botón de toggle
+      newCentena.querySelector('.toggle-centena').addEventListener('click', function() {
+        const isActive = this.dataset.active === "true";
+        this.dataset.active = !isActive;
+        this.textContent = isActive ? "Inactivo" : "Activo";
+        this.style.backgroundColor = isActive ? "#ccc" : "#19B7CF";
+      });
+    });
+
+    // Añadir eventos a los botones de toggle existentes
+    document.querySelectorAll('.toggle-centena').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const isActive = this.dataset.active === "true";
+        this.dataset.active = !isActive;
+        this.textContent = isActive ? "Inactivo" : "Activo";
+        this.style.backgroundColor = isActive ? "#ccc" : "#19B7CF";
+      });
+    });
 
     // Manejar el formulario de configuración inicial
     formConfig.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const min = parseInt(document.getElementById('min').value);
-      const max = parseInt(document.getElementById('max').value);
       const ganadores = parseInt(document.getElementById('ganadores').value);
       const importaOrden = document.getElementById('importaOrden').checked;
 
-      if (min >= max) {
-        alert("El número inicial debe ser menor que el número final.");
-        return;
-      }
-
-      if (ganadores <= 0 || ganadores > (max - min + 1)) {
+      if (ganadores <= 0) {
         alert("El número de ganadores debe ser válido.");
         return;
       }
 
+      // Obtener rangos de números vendidos por centena
+      const rangos = [];
+      let totalNumeros = 0;
+      
+      document.querySelectorAll('.centena-group').forEach(centena => {
+        const isActive = centena.querySelector('.toggle-centena').dataset.active === "true";
+        if (!isActive) return;
+        
+        const min = parseInt(centena.querySelector('.min-centena').value);
+        const max = parseInt(centena.querySelector('.max-centena').value);
+        
+        if (min > max) {
+          alert(`En la centena ${centena.dataset.centena}, el valor inicial no puede ser mayor que el final.`);
+          return;
+        }
+        
+        rangos.push({ min, max });
+        totalNumeros += (max - min + 1);
+      });
+      
+      if (totalNumeros < ganadores) {
+        alert(`Hay ${totalNumeros} números disponibles pero se configuraron ${ganadores} ganadores.`);
+        return;
+      }
+
       // Guardar configuración
-      config = { min, max, ganadores, importaOrden };
+      config = { ganadores, importaOrden, rangos };
 
       // Mostrar pantalla correspondiente
       if (importaOrden) {
@@ -450,7 +688,7 @@
           <h3>Premio ${index + 1}</h3>
           <p><strong>Nombre:</strong> ${nombre}</p>
           <p><strong>Imagen:</strong> ${imagen || 'Sin imagen'}</p>
-        `;
+        `; 
         previewPremios.appendChild(premioDiv);
       });
 
@@ -462,12 +700,12 @@
 
     // Continuar al sorteo
     continuarBtn.addEventListener('click', function() {
-      if (premios.length === 0) {
+      if (config.importaOrden && premios.length === 0) {
         alert('Debes subir un archivo CSV con los premios.');
         return;
       }
       
-      if (premios.length < config.ganadores) {
+      if (config.importaOrden && premios.length < config.ganadores) {
         if (!confirm(`Advertencia: Solo hay ${premios.length} premios pero se configuraron ${config.ganadores} ganadores. ¿Continuar igual?`)) {
           return;
         }
@@ -487,11 +725,16 @@
       
       // Inicializar números posibles
       posibles = [];
-      for (let i = config.min; i <= config.max; i++) posibles.push(i);
+      config.rangos.forEach(rango => {
+        for (let i = rango.min; i <= rango.max; i++) {
+          posibles.push(i);
+        }
+      });
       
       // Reiniciar ganadores
       ganadores = [];
-      ganadoresLista.innerHTML = '';
+      ganadorActual.innerHTML = '<h3>Esperando primer ganador...</h3>';
+      ganadoresGrid.innerHTML = '';
       
       // Habilitar botones
       sacarGanadorBtn.disabled = false;
@@ -507,31 +750,54 @@
       return numero;
     }
 
-    // Mostrar ganador
-    function mostrarGanador(numero) {
-      const index = ganadores.length - 1;
-      const div = document.createElement('div');
-      div.className = 'ganador-item';
-
-      const contenido = document.createElement('div');
-      contenido.innerHTML = `<strong>#${numero}</strong>`;
-
-      if (config.importaOrden && premios[index]) {
-        const premio = premios[index];
-        const texto = document.createElement('div');
-        texto.innerHTML = `<div><strong>${premio.nombre}</strong></div>`;
-        contenido.appendChild(texto);
-
-        if (premio.imagen) {
-          const img = document.createElement('img');
-          img.src = premio.imagen;
-          img.alt = premio.nombre;
-          div.appendChild(img);
-        }
+    // Mostrar ganador actual
+    function mostrarGanadorActual(numero, index) {
+      const premio = config.importaOrden && premios[index] ? premios[index] : null;
+      
+      let html = '';
+      if (premio) {
+        html = `
+          ${premio.imagen ? `<img src="${premio.imagen}.png" alt="${premio.nombre}" style="width:100%;height:auto;max-width:120px;object-fit:cover;display:block;margin:0 auto 20px auto;">` : ''}
+          <h3>${premio.nombre}</h3>
+          <p>#${numero}</p>
+        `;
+      } else {
+        html = `
+          <h3>Ganador</h3>
+          <p>#${numero}</p>
+        `;
       }
+      
+      ganadorActual.innerHTML = html;
+      
+      // Agregar al grid si no es el primero
+      if (ganadores.length > 0) {
+        agregarAlGrid(numero, index);
+      }
+    }
 
-      div.appendChild(contenido);
-      ganadoresLista.appendChild(div);
+    // Agregar ganador al grid
+    function agregarAlGrid(numero, index) {
+      const premio = config.importaOrden && premios[index] ? premios[index] : null;
+      const item = document.createElement('div');
+      item.className = 'ganador-item';
+      
+      let html = '';
+      if (premio) {
+        html = `
+          ${premio.imagen ? `<img src="${premio.imagen}.png" alt="${premio.nombre}" style="width:100%;height:auto;max-width:120px;object-fit:cover;display:block;margin:0 auto 20px auto;">` : ''}
+          <p class="numero">#${numero}</p>
+          <p>${premio.nombre}</p>
+        `;
+      } else {
+        html = `
+          <p class="numero">#${numero}</p>
+          <p>Ganador</p>
+        `;
+      }
+      
+      item.innerHTML = html;
+      ganadoresGrid.appendChild(item);
     }
 
     // Animación de la bola y mostrar número
@@ -561,7 +827,9 @@
 
       setTimeout(() => {
         ganadores.push(numero);
-        mostrarGanador(numero);
+        const index = ganadores.length - 1;
+        mostrarGanadorActual(numero, index);
+        
 
         if (ganadores.length === config.ganadores) {
           sacarGanadorBtn.disabled = true;
@@ -572,22 +840,71 @@
 
     // Finalizar sorteo
     finalizarBtn.addEventListener('click', () => {
-      pantalla3.style.display = 'none';
-      pantallaFinal.style.display = 'flex';
+      // Ocultar el bombo
+      document.getElementById('bombo').style.display = 'none';
       
-      ganadoresFinal.innerHTML = '<h2>🎉 Ganadores del sorteo</h2>';
+      // Expandir el contenedor de resultados
+      document.getElementById('resultadosContainer').style.width = '100%';
+      document.getElementById('resultadosContainer').style.marginLeft = '0';
       
-      ganadores.forEach((n, i) => {
-        const premio = config.importaOrden && premios[i] ? premios[i] : null;
+      // Mostrar todos los ganadores en el grid
+      ganadoresGrid.innerHTML = '';
+      ganadorActual.style.display = 'none';
+      
+      // Agregar todos los ganadores al grid
+      ganadores.forEach((numero, index) => {
+        const premio = config.importaOrden && premios[index] ? premios[index] : null;
         const item = document.createElement('div');
-        item.className = 'ganador-box';
+        item.className = 'ganador-item';
         
-        const contenido = document.createElement('div');
-        contenido.innerHTML = `<strong>#${n}</strong> ${premio ? `<br>${premio.nombre}` : ''}`;
-        item.appendChild(contenido);
+        let html = '';
+        if (premio) {
+          html = `
+            ${premio.imagen ? `<img src="${premio.imagen}" alt="${premio.nombre}">` : '<div class="imagen-placeholder"></div>'}
+            <p class="numero">#${numero}</p>
+            <p>${premio.nombre}</p>
+          `;
+        } else {
+          html = `
+            <p class="numero">#${numero}</p>
+            <p>Ganador</p>
+          `;
+        }
         
-        ganadoresFinal.appendChild(item);
+        item.innerHTML = html;
+        ganadoresGrid.appendChild(item);
       });
+      
+      // Después de un breve retraso, mostrar la pantalla final
+      setTimeout(() => {
+        pantalla3.style.display = 'none';
+        pantallaFinal.style.display = 'flex';
+        
+        // Mostrar todos los ganadores en la pantalla final
+        finalGrid.innerHTML = '';
+        ganadores.forEach((numero, index) => {
+          const premio = config.importaOrden && premios[index] ? premios[index] : null;
+          const item = document.createElement('div');
+          item.className = 'ganador-final';
+          
+          let html = '';
+          if (premio) {
+            html = `
+              ${premio.imagen ? `<img src="${premio.imagen}" alt="${premio.nombre}">` : ''}
+              <h3>${premio.nombre}</h3>
+              <p>#${numero}</p>
+            `;
+          } else {
+            html = `
+              <h3>Ganador</h3>
+              <p>#${numero}</p>
+            `;
+          }
+          
+          item.innerHTML = html;
+          finalGrid.appendChild(item);
+        });
+      }, 500);
     });
   </script>
 </body>
